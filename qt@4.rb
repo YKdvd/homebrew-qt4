@@ -1,10 +1,10 @@
 class QtAT4 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz"
-  mirror "https://www.mirrorservice.org/sites/download.qt-project.org/official_releases/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz"
+  url "https://download.qt.io/archive/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz"
   sha256 "e2882295097e47fe089f8ac741a95fef47e0a73a3f3cdf21b56990638f626ea0"
-  revision 3
+  revision 5
 
   head "https://code.qt.io/qt/qt.git", :branch => "4.8"
 
@@ -32,7 +32,19 @@ class QtAT4 < Formula
     url "https://raw.githubusercontent.com/cartr/homebrew-qt4/c957b2d755c762b77142e35f68cddd7f0986bc7b/patches/linguist-findmessage-null-check.patch"
     sha256 "db68bf8397eb404c9620c6bb1ada5e98369420b1ea44f2da8c43c718814b5b3b"
   end
-  
+
+  # Patch for QFixed compiler issue in QCoreTextFontEngine
+  patch :p1 do
+    url "https://raw.githubusercontent.com/cartr/homebrew-qt4/22a6e328b6d911b3c1cedcaadb2882dda728f8a7/patches/qfixed.patch"
+    sha256 "4ca3df71470f755917bc903dfee0b6a6e1d2788322b9d71d810b3bb80b3f8c8a"
+  end
+
+  # Patch for spurious QObject warnings
+  patch :p1 do
+    url "https://raw.githubusercontent.com/cartr/homebrew-qt4/b7bc7818aa11c809209032554a990b1cef7edacc/patches/qobject-spurious-warnings.patch"
+    sha256 "5e81df9a1c35a5aec21241a82707ad6ac198b2e44928389722b64da341260c5d"
+  end
+
   option "with-docs", "Build documentation"
 
   depends_on "openssl"
@@ -159,7 +171,7 @@ class QtAT4 < Formula
     Pathname.glob("#{bin}/*.app") { |app| mv app, prefix }
   end
 
-  def caveats; <<-EOS.undent
+  def caveats; <<~EOS
     We agreed to the Qt opensource license for you.
     If this is unacceptable you should uninstall.
 
@@ -179,10 +191,10 @@ class QtAT4 < Formula
   end
   
   bottle do
-    root_url "https://dl.bintray.com/cartr/bottle-qt4"
-    sha256 "100dcdaef47f3bb016acbe1826b589cb23d7aeb8240edf0823887252bc217e1f" => :high_sierra
-    sha256 "0bd342b9415c9b8f732e851328dbb810a08b9b8769c141aef08f0b1cc176557b" => :sierra
-    sha256 "b4579d5863e77cf162518c6e95e9825225b90a914ff557c44cb07bab957ed3cb" => :el_capitan
-    sha256 "20397d4d7161fc50f2c6f8ceb70dca82e879e2e0462f5ec1bc99a30acc137684" => :yosemite
+    root_url "https://dl.bintray.com/cartr/autobottle-qt4"
+    sha256 "a36630189041fd5938fba4590927756877cf6534612588cbb7952994490a38b3" => :high_sierra
+    sha256 "e0079a2e7d06ef88eadfffb4c96eaa1e08697f5792df42d973b5e52058d8b15d" => :sierra
+    sha256 "5515a907c5de5561176112baa4333161964d9bb40d2ed1f9c5e49257f5a0b7ac" => :el_capitan
+    sha256 "d62234507074af1305d2b29bb0b8eecc0c4e8f03c02b505a37cee1d5f3cfc0a2" => :yosemite
   end
 end

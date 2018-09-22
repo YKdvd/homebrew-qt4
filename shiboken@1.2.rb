@@ -1,30 +1,28 @@
 class ShibokenAT12 < Formula
   desc "C++ GeneratorRunner plugin for CPython extensions"
   homepage "https://wiki.qt.io/PySide"
-  url "https://download.qt.io/official_releases/pyside/shiboken-1.2.2.tar.bz2"
-  mirror "https://distfiles.macports.org/py-shiboken/shiboken-1.2.2.tar.bz2"
-  sha256 "7625bbcf1fe313fd910c6b8c9cf49ac5495499f9d00867115a2f1f2a69fce5c4"
-  revision 1
+  url "https://codeload.github.com/pyside/Shiboken/tar.gz/1.2.4"
+  mirror "https://distfiles.macports.org/py-shiboken/Shiboken-1.2.4.tar.gz"
+  sha256 "1536f73a3353296d97a25e24f9554edf3e6a48126886f8d21282c3645ecb96a4"
 
   head "https://github.com/PySide/Shiboken.git"
 
   bottle do
     cellar :any
-    rebuild 2
     root_url "https://dl.bintray.com/cartr/autobottle-qt4"
-    sha256 "5963a64fde67d897fa61735138a5038fbb85f65048a686aba0d6c7ae1c5565f1" => :high_sierra
-    sha256 "4392a7a24506b1be9f640f1030cad073eb78877250de50ddcb237757cf9368cf" => :sierra
-    sha256 "c3d4a78614c8d094237c6c44219b682bb96cded90188e59e6aa53ab1be883c3c" => :el_capitan
-    sha256 "18fb05d0f912aa73acdccbc52a3fb4e74e86f8f905b0badd44149baaf72bb02e" => :yosemite
+    sha256 "9fc153a21d3cabf6c7a996c0147b8341dafc5c631b43cb1a085ecf2dbee4ce25" => :high_sierra
+    sha256 "f886aa8e05466368ab49d7396250f5ea08ee1ece1f2285470b4bb4789042e893" => :sierra
+    sha256 "a81c6f85b893e75b34c624d82519c0ead1b537320922064f71fb8a841d4d8d6b" => :el_capitan
+    sha256 "e7fcd71f74a0018ee43463323248042e8bfdafd927b303ce00a53d88846cfac4" => :yosemite
   end
 
   depends_on "cmake" => :build
   depends_on "cartr/qt4/qt@4"
 
   # don't use depends_on :python because then bottles install Homebrew's python
-  option "without-python", "Build without python 2 support"
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
-  depends_on :python3 => :optional
+  option "without-python@2", "Build without python 2 support"
+  depends_on "python@2" => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :optional
 
   def install
     # As of 1.1.1 the install fails unless you do an out of tree build and put
@@ -34,8 +32,8 @@ class ShibokenAT12 < Formula
         args = std_cmake_args
         # Building the tests also runs them.
         args << "-DBUILD_TESTS=ON"
-        if python == "python3" && Formula["python3"].installed?
-          python_framework = Formula["python3"].opt_prefix/"Frameworks/Python.framework/Versions/#{version}"
+        if python == "python3" && Formula["python"].installed?
+          python_framework = Formula["python"].opt_prefix/"Frameworks/Python.framework/Versions/#{version}"
           args << "-DPYTHON3_INCLUDE_DIR:PATH=#{python_framework}/Headers"
           args << "-DPYTHON3_LIBRARY:FILEPATH=#{python_framework}/lib/libpython#{version}.dylib"
         end

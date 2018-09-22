@@ -1,27 +1,25 @@
 class PysideAT12 < Formula
   desc "Python bindings for Qt"
   homepage "https://wiki.qt.io/PySide"
-  url "https://download.qt.io/official_releases/pyside/pyside-qt4.8+1.2.2.tar.bz2"
-  mirror "https://distfiles.macports.org/py-pyside/pyside-qt4.8+1.2.2.tar.bz2"
-  sha256 "a1a9df746378efe52211f1a229f77571d1306fb72830bbf73f0d512ed9856ae1"
-  revision 1
+  url "https://codeload.github.com/pyside/PySide/tar.gz/1.2.4"
+  mirror "https://distfiles.macports.org/py-pyside/PySide-1.2.4.tar.gz"
+  sha256 "90f2d736e2192ac69e5a2ac798fce2b5f7bf179269daa2ec262986d488c3b0f7"
 
   head "https://github.com/PySide/PySide.git"
 
   bottle do
     cellar :any
-    rebuild 2
-    sha256 "83f1da35b017aae67dfb0d414ea825b990c691c107c0a5f177f26252c15c684d" => :high_sierra
     root_url "https://dl.bintray.com/cartr/autobottle-qt4"
-    sha256 "51be3a1fd82789dfee8afd5079e01685ac480cacb3c07f9cdb839f4a695488ac" => :sierra
-    sha256 "84303e789040c6fce89d499cb42308fd4a1d0f4ef7b8b5b760bf196e8c3e272a" => :el_capitan
-    sha256 "ef5894f1769a3ca2e2c8b69eb8a8fc62daa0baf107e26d43a9bc3077394c14fc" => :yosemite
+    sha256 "fae1f0246101547c9646f3bcee32c21ae006530398c812a97496c13c6ffa12ec" => :high_sierra
+    sha256 "b905f9edacee0b937c7873b6e53815121776b3c9c4a6baa21522dce94fa2675f" => :sierra
+    sha256 "98861a66bf700f7c38b44471b933062a285bcbdd238e17499a8beb50545115f1" => :el_capitan
+    sha256 "c3016b818ac01bb8e93164e398dc3dfb645a99932741d8508e6369972f32c1cf" => :yosemite
   end
 
   # don't use depends_on :python because then bottles install Homebrew's python
-  option "without-python", "Build without python 2 support"
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
-  depends_on :python3 => :optional
+  option "without-python@2", "Build without python 2 support"
+  depends_on "python@2" => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :optional
 
   option "without-docs", "Skip building documentation"
 
@@ -30,8 +28,8 @@ class PysideAT12 < Formula
   depends_on "cartr/qt4/qt@4"
   depends_on "cartr/qt4/qt-webkit@2.3"
 
-  if build.with? "python3"
-    depends_on "cartr/qt4/shiboken@1.2" => "with-python3"
+  if build.with? "python"
+    depends_on "cartr/qt4/shiboken@1.2" => "with-python"
   else
     depends_on "cartr/qt4/shiboken@1.2"
   end
@@ -43,7 +41,7 @@ class PysideAT12 < Formula
     # out of tree build in shiboken.rb.
     Language::Python.each_python(build) do |python, version|
       abi = `#{python} -c 'import sysconfig as sc; print(sc.get_config_var("SOABI"))'`.strip
-      python_suffix = python == "python" ? "-python2.7" : ".#{abi}"
+      python_suffix = python == "python2.7" ? "-python2.7" : ".#{abi}"
       mkdir "macbuild#{version}" do
         qt = Formula["cartr/qt4/qt@4"].opt_prefix
         args = std_cmake_args + %W[
