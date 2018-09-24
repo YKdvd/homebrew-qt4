@@ -12,8 +12,8 @@ class PyqtAT4 < Formula
     odie "pyqt: --with-python must be specified when using --without-python@2"
   end
 
-  depends_on "cartr/qt4/qt@4"
-  depends_on "cartr/qt4/qt-webkit@2.3" => :recommended
+  depends_on "ykdvd/qt4/qt@4"
+  depends_on "ykdvd/qt4/qt-webkit@2.3" => :recommended
 
   if build.with? "python"
     depends_on "sip" => "with-python"
@@ -55,8 +55,8 @@ class PyqtAT4 < Formula
         cp_r(Dir.glob("*"), dir)
         cd dir do
           system python, "configure.py", *args
-          inreplace "pyqtconfig.py", "#{HOMEBREW_CELLAR}/#{Formula["cartr/qt4/qt@4"].name}/#{Formula["cartr/qt4/qt@4"].pkg_version}",
-            Formula["cartr/qt4/qt@4"].opt_prefix
+          inreplace "pyqtconfig.py", "#{HOMEBREW_CELLAR}/#{Formula["ykdvd/qt4/qt@4"].name}/#{Formula["ykdvd/qt4/qt@4"].pkg_version}",
+            Formula["ykdvd/qt4/qt@4"].opt_prefix
           (lib/"python#{version}/site-packages/PyQt4").install "pyqtconfig.py"
         end
       ensure
