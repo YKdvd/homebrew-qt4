@@ -93,7 +93,7 @@ class QtAT4 < Formula
 
     # Phonon is broken on macOS 10.12+ and Xcode 8+ due to QTKit.framework
     # being removed.
-    args << "-no-phonon" if MacOS.version >= :sierra || MacOS::Xcode.version >= "8.0"
+    #args << "-no-phonon" if MacOS.version >= :sierra || MacOS::Xcode.version >= "8.0"
 
     args << "-openssl-linked"
     args << "-I" << Formula["openssl"].opt_include

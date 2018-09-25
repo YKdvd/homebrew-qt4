@@ -1,0 +1,9 @@
+export SDKWOMBAT=MONGOOSE
+export HOMEBREW_SDKROOTCOPY=/Users/Oberst/MacOSX10.11.sdk
+#export SDKROOT=$HOMEBREW_SDKROOTCOPY
+#export HOMEBREW_SDKROOT=$HOMEBREW_SDKROOTCOPY
+export HOMEBREW_WOMBAT=HOMEBREW_MONGOOSE
+
+env | sort
+brew reinstall ykdvd/qt4/pyqt@4 --build-from-source --debug --verbose
+
