@@ -13,7 +13,7 @@ class PyqtAT4 < Formula
   end
 
   depends_on "ykdvd/qt4/qt@4"
-  depends_on "ykdvd/qt4/qt-webkit@2.3" => :recommended
+  #depends_on "ykdvd/qt4/qt-webkit@2.3" => :recommended
 
   if build.with? "python"
     depends_on "sip" => "with-python"
@@ -78,7 +78,7 @@ class PyqtAT4 < Formula
   end
 
   def caveats
-    "Phonon support is broken."
+    "Phonon support is being repaired."
   end
 
   test do
